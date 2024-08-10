@@ -27,3 +27,8 @@ body {
     background-color: #ffffff;
   }
 }
+
+#root {
+  width: 100vw;
+  box-sizing: border-box;
+}
