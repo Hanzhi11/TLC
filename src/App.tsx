@@ -9,8 +9,12 @@ export interface PowerballNumbers {
     secondary: number;
 }
 
-const initialSelectedNumbers: number[] = new Array(7).fill(0);
-const index: number = 1;
+const PRIMARY_TOTAL: number = 7;
+const NUMBER_MIN: number = 1;
+export const PRIMARY_MAX: number = 35;
+export const SECONDARY_MAX: number = 20;
+const initialSelectedNumbers: number[] = new Array(PRIMARY_TOTAL).fill(0);
+const INDEX: number = 1;
 
 const payload = {
     CompanyId: "GoldenCasket",
@@ -23,15 +27,22 @@ const initialNumbers = {
     secondary: 0,
 };
 
-function validNumbers(numbers: Set<number>): boolean {
-    let isValid = true;
-    for (const num of numbers) {
-        if (num < 1 || num > 35) {
-            isValid = false;
-            break;
+function validNumbers(primary: number[], secondary: number): boolean {
+    if (
+        new Set(primary).size !== PRIMARY_TOTAL ||
+        secondary < NUMBER_MIN ||
+        secondary > SECONDARY_MAX
+    ) {
+        return false;
+    }
+
+    for (const num of primary) {
+        if (num < NUMBER_MIN || num > PRIMARY_MAX) {
+            return false;
         }
     }
-    return isValid;
+
+    return true;
 }
 
 function App(): JSX.Element {
@@ -39,7 +50,7 @@ function App(): JSX.Element {
 
     const retriveNumbers = (): void => {
         const currentPrimaryNumbers = new Set(numbers.primary);
-        if (currentPrimaryNumbers.size === 7) {
+        if (currentPrimaryNumbers.size === PRIMARY_TOTAL) {
             return;
         }
         fetch(
@@ -58,18 +69,14 @@ function App(): JSX.Element {
             .then((data) => {
                 const result = data.DrawResults[0];
                 if (data.Success && result?.ProductId === "Powerball") {
-                    const primaryNumbers: Set<number> = new Set(
-                        result.PrimaryNumbers
-                    );
-                    if (
-                        primaryNumbers.size !== 7 ||
-                        !validNumbers(primaryNumbers)
-                    ) {
+                    const primaryNumbers = result.PrimaryNumbers;
+                    const secondaryNumbers = result.SecondaryNumbers[0];
+                    if (!validNumbers(primaryNumbers, secondaryNumbers)) {
                         return;
                     }
                     setNumbers({
-                        primary: result.PrimaryNumbers,
-                        secondary: result.SecondaryNumbers[0],
+                        primary: primaryNumbers,
+                        secondary: secondaryNumbers,
                     });
                 }
             })
@@ -93,7 +100,7 @@ function App(): JSX.Element {
         <div className="appContainer">
             <header className="titleContainer">
                 <span className="title">Game </span>
-                {index}
+                {INDEX}
             </header>
             <Numbers numbers={numbers} />
             <div className="buttonContainer">

@@ -1,4 +1,4 @@
-import { PowerballNumbers } from "../App";
+import { PRIMARY_MAX, PowerballNumbers, SECONDARY_MAX } from "../App";
 import cross from "./../assets/cross.svg";
 
 interface Props {
@@ -24,7 +24,7 @@ function generateCells(
                         >
                             <img src={cross} alt="Cross Icon" />
                         </div>
-                        <b style={{ color: "#9a4edd", zIndex: "0" }}>
+                        <b style={{ color: "#704993", zIndex: "0" }}>
                             {index + 1}
                         </b>
                     </div>
@@ -37,15 +37,15 @@ function generateCells(
 export default function Numbers(props: Props): JSX.Element {
     const { primary, secondary } = props.numbers;
     const set = new Set(primary);
-    const primaryCells = generateCells(35, primary);
-    const secondaryCells = generateCells(20, [secondary]);
+    const primaryCells = generateCells(PRIMARY_MAX, primary);
+    const secondaryCells = generateCells(SECONDARY_MAX, [secondary]);
 
     return (
         <div>
             <section className="selectionContainer">
                 {primary.map((number, index) => {
                     let className = "circle number";
-                    if (number !== 0) {
+                    if (number) {
                         className += " " + "primarySelected";
                     } else if (set.size === index + 1) {
                         className += " " + "selected";
@@ -55,13 +55,13 @@ export default function Numbers(props: Props): JSX.Element {
 
                     return (
                         <div key={`selected_${index}`} className={className}>
-                            <b>{number !== 0 && number}</b>
+                            {number ? <b>{number}</b> : null}
                         </div>
                     );
                 })}
                 <div
                     className={"circle number".concat(
-                        secondary === 0 ? "" : " secondarySelected"
+                        secondary ? " secondarySelected" : ""
                     )}
                 >
                     <b>{secondary ? secondary : "PB"}</b>
