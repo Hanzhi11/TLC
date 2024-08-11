@@ -9,24 +9,24 @@ function generateCells(
     totalNumber: number,
     selectedNumbers: number[]
 ): JSX.Element {
+    const role = totalNumber === PRIMARY_MAX ? "primary" : "secondary";
+
     return (
-        <section className="grid">
+        <section className="grid" role={role}>
             {new Array(totalNumber).fill(null).map((_element, index) => {
                 let className = "cell";
                 if (selectedNumbers.includes(index + 1)) {
                     className += " " + "cellSelected";
                 }
                 return (
-                    <div key={index} className={className}>
+                    <div key={index} className={className} role="gridcell">
                         <div
                             hidden={!selectedNumbers.includes(index + 1)}
                             className="crossContainer"
                         >
-                            <img src={cross} alt="Cross Icon" />
+                            <img src={cross} alt="Cross Icon" role="image" />
                         </div>
-                        <b className="cellNumber">
-                            {index + 1}
-                        </b>
+                        <b className="cellNumber">{index + 1}</b>
                     </div>
                 );
             })}
@@ -41,8 +41,8 @@ export default function Numbers(props: Props): JSX.Element {
     const secondaryCells = generateCells(SECONDARY_MAX, [secondary]);
 
     return (
-        <div>
-            <section className="selectionContainer">
+        <main role="main">
+            <section className="selectionContainer" role="group">
                 {primary.map((number, index) => {
                     let className = "circle number";
                     if (number) {
@@ -52,7 +52,11 @@ export default function Numbers(props: Props): JSX.Element {
                     }
 
                     return (
-                        <div key={`selected_${index}`} className={className}>
+                        <div
+                            key={`selected_${index}`}
+                            className={className}
+                            role="cell"
+                        >
                             {number ? <b>{number}</b> : null}
                         </div>
                     );
@@ -62,14 +66,16 @@ export default function Numbers(props: Props): JSX.Element {
                         secondary ? " secondarySelected" : ""
                     )}
                 >
-                    <b className={secondary ? "" : "black"}>{secondary ? secondary : "PB"}</b>
+                    <b className={secondary ? "" : "black"} role="cell">
+                        {secondary ? secondary : "PB"}
+                    </b>
                 </div>
             </section>
             {primaryCells}
-            <p className="runner">
+            <p className="banner" role="banner">
                 <b>SELECT YOUR POWERBALL</b>
             </p>
             {secondaryCells}
-        </div>
+        </main>
     );
 }
