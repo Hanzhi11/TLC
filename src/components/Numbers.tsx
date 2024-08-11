@@ -24,7 +24,7 @@ function generateCells(
                         >
                             <img src={cross} alt="Cross Icon" />
                         </div>
-                        <b style={{ color: "#704993", zIndex: "0" }}>
+                        <b className="cellNumber">
                             {index + 1}
                         </b>
                     </div>
@@ -49,8 +49,6 @@ export default function Numbers(props: Props): JSX.Element {
                         className += " " + "primarySelected";
                     } else if (set.size === index + 1) {
                         className += " " + "selected";
-                    } else {
-                        className += " " + "notSelected";
                     }
 
                     return (
@@ -64,7 +62,7 @@ export default function Numbers(props: Props): JSX.Element {
                         secondary ? " secondarySelected" : ""
                     )}
                 >
-                    <b>{secondary ? secondary : "PB"}</b>
+                    <b className={secondary ? "" : "black"}>{secondary ? secondary : "PB"}</b>
                 </div>
             </section>
             {primaryCells}

@@ -100,8 +100,8 @@ function App(): JSX.Element {
     return (
         <div className="appContainer">
             <header className="titleContainer">
-                <span className="title">Game </span>
-                {INDEX}
+                <b className="title black">Game </b>
+                <b className="black">{INDEX}</b>
             </header>
             <Numbers numbers={numbers} />
             <div className="buttonContainer">

@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #704993;
+  --primary-selected-color: #2d57a3;
+  --primary-border-color: #bfbfbf;
+  --height: 32px;
 }
 
 body {
@@ -23,7 +28,7 @@ body {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #fff;
     background-color: #ffffff;
   }
 }
