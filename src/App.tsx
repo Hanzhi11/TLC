@@ -73,7 +73,9 @@ function App(): JSX.Element {
                             SECONDARY_MAX
                         )
                     ) {
-                        return;
+                        throw new Error(
+                            "Numbers are not available right now! Please try again later!"
+                        );
                     }
                     setNumbers({
                         primary: primaryNumbers,
