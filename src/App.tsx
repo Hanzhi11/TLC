@@ -27,22 +27,16 @@ const initialNumbers = {
     secondary: 0,
 };
 
-function validNumbers(primary: number[], secondary: number): boolean {
-    if (
-        new Set(primary).size !== PRIMARY_TOTAL ||
-        secondary < NUMBER_MIN ||
-        secondary > SECONDARY_MAX
-    ) {
+function isValidInteger(number: number, min: number, max: number): boolean {
+    return Number.isInteger(number) && number >= min && number <= max;
+}
+
+function isValidPrimaryNumbers(primary: number[]): boolean {
+    if (new Set(primary).size !== PRIMARY_TOTAL) {
         return false;
     }
 
-    for (const num of primary) {
-        if (num < NUMBER_MIN || num > PRIMARY_MAX) {
-            return false;
-        }
-    }
-
-    return true;
+    return primary.every((num) => isValidInteger(num, NUMBER_MIN, PRIMARY_MAX));
 }
 
 function App(): JSX.Element {
@@ -71,7 +65,14 @@ function App(): JSX.Element {
                 if (data.Success && result?.ProductId === "Powerball") {
                     const primaryNumbers = result.PrimaryNumbers;
                     const secondaryNumbers = result.SecondaryNumbers[0];
-                    if (!validNumbers(primaryNumbers, secondaryNumbers)) {
+                    if (
+                        !isValidPrimaryNumbers(primaryNumbers) ||
+                        !isValidInteger(
+                            secondaryNumbers,
+                            NUMBER_MIN,
+                            SECONDARY_MAX
+                        )
+                    ) {
                         return;
                     }
                     setNumbers({
