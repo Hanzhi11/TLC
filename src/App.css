@@ -3,7 +3,7 @@ button {
 }
 
 button:active {
-    box-shadow: 0 0 0 1px #fff, 0 0 0 4px #0087ff;
+    box-shadow: 0 0 0 1px #ffffff, 0 0 0 4px #0087ff;
 }
 
 button:hover {
@@ -128,7 +128,7 @@ img {
 }
 
 .black {
-    color: #000;
+    color: #000000;
 }
 
 @media screen and (min-width: 768px) {
